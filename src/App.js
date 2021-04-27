@@ -12,7 +12,7 @@ export default function App() {
      <div className="container">
         <div className="WeatherApp">
           <HeaderDate />
-          <SearchEngine />
+          <SearchEngine defaultCity="Detroit" />
           <Outlook />
           
           <Planner />

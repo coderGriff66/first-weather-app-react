@@ -1,8 +1,29 @@
 import React from "react";
+import axios from "axios";
 
 import "./SearchEngine.css";
 
-export default function SearchEngine() {
+export default function SearchEngine(props) {
+  const [weatherData, setWeatherData] = useState({ready: false});
+
+  function handleResponse(response) {
+    setWeatherData({
+      ready: true,
+      date: new Date(response.data.dt * 1000),
+      temperature: response.data.main.temp,
+      description: response.data.weather[0].description,
+      feelsLike: response.data.main.feels_like,
+      barometer: response.data.main.pressure,
+      humidity: response.data.main.humidity,
+      winds: response.data.wind.speed,
+      minTemp: response.data.weather.min_temp,
+      city: response.data.name
+
+    });
+  }
+
+  if (weatherData.ready) {
+
   return (
     <div>
     <form className="SearchEngine">
@@ -19,16 +40,16 @@ export default function SearchEngine() {
           </div>
     </form>
       <div>
-        <h1>Detroit</h1>
+        <h1>{weatherData.city}</h1>
       </div>
       
         <div className="row">
           <div className="col-7">
             <div className="Card Leftside">
-              <h2 classNmae="text-capitalize">Sunny</h2>
+              <h2 className="text-capitalize">{weatherData.description}</h2>
             <div className="clearfix">
               <img src="/" alt="Clear_Sky" className="float-left"/>
-                <span ClassName="temperature">60</span>
+              <span ClassName="temperature">{Math.round(weatherData.temperature)}</span>
                 <span className="unit">°C</span>
             </div>
           </div>
@@ -37,11 +58,11 @@ export default function SearchEngine() {
           <div className="col-5">
             <div className="Card Rightside">
              <ul className="Conditions">
-              <li>Feels Like: <strong>58°</strong></li>
-              <li>Barometer: <strong>98.29</strong></li>
-              <li>Humidity: <strong>43%</strong></li>
-              <li>Wind: <strong>5 km/h</strong></li>
-              <li>Day's Low Temp: <strong>48°</strong></li>
+              <li>Feels Like: <strong>{weatherData.feelsLike}°</strong></li>
+              <li>Barometer: <strong>{weatherData.barometer}</strong></li>
+              <li>Humidity: <strong>{weatherData.humidity}%</strong></li>
+              <li>Wind: <strong>{weatherData.wind}/km/h</strong></li>
+              <li>Day's Low Temp: <strong>{weatherData.minTemp}°</strong></li>
               </ul>
             </div>
             </div>
@@ -50,5 +71,13 @@ export default function SearchEngine() {
          
       
     );
+} else {
+  const apiKey="06e5d3dda0232566f39a1df37e2d5cdd";
+  let apiUrl=`https://api.openweathermap.org/data/2.5/weather?q=${props.defaultCity}&appid=${apiKey}&units=metric`;
+
+  axios.get(apiUrl).then(handleResponse);
+
+    return "Loading";
+}
 }
 
