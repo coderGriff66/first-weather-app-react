@@ -1,3 +1,6 @@
+import React from "react";
+import HeaderDate from "./HeaderDate";
+import SearchEngine from "./SearchEngine";
 
 import './App.css';
 
@@ -6,7 +9,10 @@ export default function App() {
     <div className="App">
      <div className="container">
         <div className="WeatherApp">
-          
+          <HeaderDate />
+          <SearchEngine />
+
+                   
 
           <footer>
             This project coded by Jennifer Griffin and is 
