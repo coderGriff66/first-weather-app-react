@@ -1,10 +1,12 @@
 import React from "react";
 import axios from "axios";
+import WeatherConditions from "./WeatherConditions";
 
 import "./SearchEngine.css";
 
 export default function SearchEngine(props) {
-  const [weatherData, setWeatherData] = useState({ready: false});
+  const [weatherData, setWeatherData] = useState({ ready: false });
+  const [city, setCity] = useState(props.defaultCity);
 
   function handleResponse(response) {
     setWeatherData({
@@ -22,14 +24,21 @@ export default function SearchEngine(props) {
     });
   }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+  }
+  function handleCity(event) {
+   setCity(event.target.value);
+  }
+
   if (weatherData.ready) {
 
   return (
-    <div>
-    <form className="SearchEngine">
+    <div className="SearchEngine">
+      <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="col-6">
-              <input type="Search" placeholder="Enter City Name" className="form-control" autofocus="on" autocomplete="off"/>
+              <input type="Search" placeholder="Enter City Name" className="form-control" autofocus="on" autocomplete="off" onChange={handleCity} />
             </div>
                <div className="col-3">
                 <input type="submit" value="Search" className="btn btn-success"/>
@@ -42,42 +51,18 @@ export default function SearchEngine(props) {
       <div>
         <h1>{weatherData.city}</h1>
       </div>
-      
-        <div className="row">
-          <div className="col-7">
-            <div className="Card Leftside">
-              <h2 className="text-capitalize">{weatherData.description}</h2>
-            <div className="clearfix">
-              <img src="/" alt="Clear_Sky" className="float-left"/>
-              <span ClassName="temperature">{Math.round(weatherData.temperature)}</span>
-                <span className="unit">°C</span>
-            </div>
-          </div>
-        </div>
+      <WeatherConditions data={weatherData} />
+  );   
         
-          <div className="col-5">
-            <div className="Card Rightside">
-             <ul className="Conditions">
-              <li>Feels Like: <strong>{weatherData.feelsLike}°</strong></li>
-              <li>Barometer: <strong>{weatherData.barometer}</strong></li>
-              <li>Humidity: <strong>{weatherData.humidity}%</strong></li>
-              <li>Wind: <strong>{weatherData.wind}/km/h</strong></li>
-              <li>Day's Low Temp: <strong>{weatherData.minTemp}°</strong></li>
-              </ul>
-            </div>
-            </div>
-            </div>
-       </div>
-         
-      
-    );
 } else {
+
   const apiKey="06e5d3dda0232566f39a1df37e2d5cdd";
-  let apiUrl=`https://api.openweathermap.org/data/2.5/weather?q=${props.defaultCity}&appid=${apiKey}&units=metric`;
+  let apiUrl=`https://api.openweathermap.org/data/2.5/weather?q=${City}&appid=${apiKey}&units=metric`;
 
   axios.get(apiUrl).then(handleResponse);
 
-    return "Loading";
-}
-}
+    return 
+      "Loading";
+  }
 
+}
