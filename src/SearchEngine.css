@@ -1,0 +1,16 @@
+.SearchEngine ul {
+  font-size: 20px;
+  list-style: none;
+}
+
+.SearchEngine h2 {
+  font-size: 30px;
+  text-align: center;
+}
+ .SearchEngine temperature {
+   font-size: 75px;
+}
+
+.WearchEngine img {
+  size: 100px;
+}

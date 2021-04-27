@@ -2,6 +2,7 @@ import React from "react";
 import HeaderDate from "./HeaderDate";
 import SearchEngine from "./SearchEngine";
 import Outlook from "./Outlook";
+import Planner from "./Planner";
 
 import './App.css';
 
@@ -13,6 +14,8 @@ export default function App() {
           <HeaderDate />
           <SearchEngine />
           <Outlook />
+          
+          <Planner />
 
                    
 
